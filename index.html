@@ -284,19 +284,19 @@
             <section>
               <h2>FON + dd-wrt</h2>
               <pre><code class="bash" contenteditable="false">#!/bin/sh
-  PROXY_IP=140.127.233.250
-  PROXY_PORT=3128
-  LAN_IP=`nvram get lan_ipaddr`
-  LAN_NET=$LAN_IP/`nvram get lan_netmask`
+PROXY_IP=140.127.233.250
+PROXY_PORT=3128
+LAN_IP=`nvram get lan_ipaddr`
+LAN_NET=$LAN_IP/`nvram get lan_netmask`
 
-  iptables -t nat -A PREROUTING -i br0 -s $LAN_NET\
-           -d $LAN_NET -p tcp --dport 80 -j ACCEPT
-  iptables -t nat -A PREROUTING -i br0 -s ! $PROXY_IP\
-           -p tcp --dport 80 -j DNAT --to $PROXY_IP:$PROXY_PORT
-  iptables -t nat -I POSTROUTING -o br0 -s $LAN_NET\
-           -d $PROXY_IP -p tcp -j SNAT --to $LAN_IP
-  iptables -I FORWARD -i br0 -o br0 -s $LAN_NET -d\
-           $PROXY_IP -p tcp --dport $PROXY_PORT -j ACCEPT</code></pre>
+iptables -t nat -A PREROUTING -i br0 -s $LAN_NET\
+         -d $LAN_NET -p tcp --dport 80 -j ACCEPT
+iptables -t nat -A PREROUTING -i br0 -s ! $PROXY_IP\
+         -p tcp --dport 80 -j DNAT --to $PROXY_IP:$PROXY_PORT
+iptables -t nat -I POSTROUTING -o br0 -s $LAN_NET\
+         -d $PROXY_IP -p tcp -j SNAT --to $LAN_IP
+iptables -I FORWARD -i br0 -o br0 -s $LAN_NET -d\
+         $PROXY_IP -p tcp --dport $PROXY_PORT -j ACCEPT</code></pre>
             </section>
             <section>
               <h2>代理伺服器 - squid <sup style="font-size: 35%; color: #F22;">遠端主機</sup></h2>

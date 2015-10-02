@@ -1,344 +1,344 @@
 <!doctype html>
 <html lang="en">
 
-	<head>
-		<meta charset="utf-8">
+		<head>
+				<meta charset="utf-8">
 
-		<title>Cacti</title>
+				<title>Cacti</title>
 
-		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
-		<meta name="author" content="Hakim El Hattab">
+				<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+				<meta name="author" content="Hakim El Hattab">
 
-		<meta name="apple-mobile-web-app-capable" content="yes" />
-		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+				<meta name="apple-mobile-web-app-capable" content="yes" />
+				<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+				<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+				<link rel="stylesheet" href="css/reveal.css">
+				<link rel="stylesheet" href="css/theme/black.css" id="theme">
 
-		<!-- Code syntax highlighting -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+				<!-- Code syntax highlighting -->
+				<link rel="stylesheet" href="lib/css/zenburn.css">
 
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
+				<!-- Printing and PDF exports -->
+				<script>
+var link = document.createElement( 'link' );
+link.rel = 'stylesheet';
+link.type = 'text/css';
+link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+document.getElementsByTagName( 'head' )[0].appendChild( link );
+				</script>
 
-		<!--[if lt IE 9]>
-		<script src="lib/js/html5shiv.js"></script>
-		<![endif]-->
-	</head>
+				<!--[if lt IE 9]>
+				<script src="lib/js/html5shiv.js"></script>
+				<![endif]-->
+		</head>
 
-	<body>
+		<body>
 
-		<div class="reveal">
+				<div class="reveal">
 
-			<!-- Any section element inside of this container is displayed as a slide -->
-<div class="slides">
-        <section>
-            <h1>Cacti</h1>
-            <h3>開放原始碼的監控與繪圖工具</h3>
-            <p>
-                    <small>By <a href="mailto:wayne.lai@vpon.com">Wayne</a></small>
-            </p>
-        </section>
-        
-        <section>
-            <h2>大綱</h2>
-            <ul>
-                <li>簡介</li>
-                <li>Data Flow</li>
-                <li>Plugins
-                    <ul>
-                        <li>WeatherMap</li>
-                        <li>Monitor</li>
-                        <li>SmokePing</li>
-                    </ul>
-                </li>
-                <li> 總結 </li>
-            </ul>
-        </section>
-        
-        <section>
-        
-            <section>
-            
-                <h2>問題</h2>
-                <ul>
-                    <li class="fragment">尋找問題時總是憑感覺</li>
-                    <li class="fragment">總是要一台一台遠端登入去檢查誰出問題</li>
-                    <li class="fragment">雖然已使用許多優秀的監控工具但都各自獨立分散</li>
-                </ul>
-                
-            </section>
-            
-            <section>
-            
-                <h2>目標</h2>
-                <ul>
-                    <li class="fragment">視覺化、直觀的監控平台</li>
-                    <li class="fragment">能幫助我們在第一時間快速鎖定問題所在</li>
-                    <li class="fragment">能夠涵蓋並收斂現有平台</li>
-                    <li class="fragment">能夠依照需要擴充功能</li>
-                    <li class="fragment">穩定性</li>
-                    <li class="fragment">能視需求自行修改或開發擴充功能的話更好</li>
-                </ul>
-            
-            </section>
-        
-        </section>
-        
-        <section>
-            <h2>簡介</h2>
-            <ul>
-                <li>開放原始碼, 網路流量監控、繪圖工具 </li>
-                <li class="fragment">使用基於 Cron/at 的 poller</li>
-                <li class="fragment">使用 RRD 儲存蒐集到的資料 </li>
-                <li class="fragment">使用 MySQL 儲存系統設定</li>
-                <li class="fragment">以 PHP 開發的網頁管理界面</li>
-                <li class="fragment">支援以 SNMP / WMI / Scripts 等方式取得資料</li>
-            </ul>
-        </section>
-        
-        <section>
-        
-            <section>
-                <h2>Data Flow</h2>
-                <img src='http://i.imgur.com/PovCH7p.png'>
-            </section>
-            
-            <section>
-            
-                <h2>資料取得</h2>
-                <ul>
-                    <li>cron → poller.php</li>
-                    <li class="fragment">poller_cache → polling_command</li>
-                </ul>
-            </section>
-            
-            <section>
-            
-                <h2>資料取得</h2>
-                <ul>
-                    <li>SNMP Query</li>
-                    <li class="fragment">Script Query</li>
-                    <li class="fragment">PHP Extension: SOAP</li>
-                </ul>
-            
-            </section>
+						<!-- Any section element inside of this container is displayed as a slide -->
+						<div class="slides">
+								<section>
+										<h1>Cacti</h1>
+										<h3>開放原始碼的監控與繪圖工具</h3>
+										<p>
+										<small>By <a href="mailto:wayne.lai@vpon.com">Wayne</a></small>
+										</p>
+								</section>
 
-            <section>
-            
-                <h2>資料取得</h2>
-                <h3>Data Input Methods</h3>
-  <ul>
-    <li> 一個 Data Input Method 對應一種回傳</li>
-    <li class="fragment"> 一次回傳一個或多個資料</li>
-    <li class="fragment"> 多個資料回傳格式: <p><code> varName1:Value1 varName2:Value2 varName3:Value3</code></p></li>
-  </ul>
-            
-            </section>
-            
-            <section>
-                <h2>資料取得</h2>
-                <h3>Data Input Methods</h3>
-                
-                <p>diskfree.sh</p>
-    <pre><code>#!/bin/sh
+								<section>
+										<h2>大綱</h2>
+										<ul>
+												<li>簡介</li>
+												<li>Data Flow</li>
+												<li>Plugins
+														<ul>
+																<li>WeatherMap</li>
+																<li>Monitor</li>
+																<li>SmokePing</li>
+														</ul>
+												</li>
+												<li> 總結 </li>
+										</ul>
+								</section>
+
+								<section>
+
+										<section>
+
+												<h2>問題</h2>
+												<ul>
+														<li class="fragment">尋找問題時總是憑感覺</li>
+														<li class="fragment">總是要一台一台遠端登入去檢查誰出問題</li>
+														<li class="fragment">雖然已使用許多優秀的監控工具但都各自獨立分散</li>
+												</ul>
+
+										</section>
+
+										<section>
+
+												<h2>目標</h2>
+												<ul>
+														<li class="fragment">視覺化、直觀的監控平台</li>
+														<li class="fragment">能幫助我們在第一時間快速鎖定問題所在</li>
+														<li class="fragment">能夠涵蓋並收斂現有平台</li>
+														<li class="fragment">能夠依照需要擴充功能</li>
+														<li class="fragment">穩定性</li>
+														<li class="fragment">能視需求自行修改或開發擴充功能的話更好</li>
+												</ul>
+
+										</section>
+
+								</section>
+
+								<section>
+										<h2>簡介</h2>
+										<ul>
+												<li>開放原始碼, 網路流量監控、繪圖工具 </li>
+												<li class="fragment">使用基於 Cron/at 的 poller</li>
+												<li class="fragment">使用 RRD 儲存蒐集到的資料 </li>
+												<li class="fragment">使用 MySQL 儲存系統設定</li>
+												<li class="fragment">以 PHP 開發的網頁管理界面</li>
+												<li class="fragment">支援以 SNMP / WMI / Scripts 等方式取得資料</li>
+										</ul>
+								</section>
+
+								<section>
+
+										<section>
+												<h2>Data Flow</h2>
+												<img src='http://i.imgur.com/PovCH7p.png'>
+										</section>
+
+										<section>
+
+												<h2>資料取得</h2>
+												<ul>
+														<li>cron → poller.php</li>
+														<li class="fragment">poller_cache → polling_command</li>
+												</ul>
+										</section>
+
+										<section>
+
+												<h2>資料取得</h2>
+												<ul>
+														<li>SNMP Query</li>
+														<li class="fragment">Script Query</li>
+														<li class="fragment">PHP Extension: SOAP</li>
+												</ul>
+
+										</section>
+
+										<section>
+
+												<h2>資料取得</h2>
+												<h3>Data Input Methods</h3>
+												<ul>
+														<li> 一個 Data Input Method 對應一種回傳</li>
+														<li class="fragment"> 一次回傳一個或多個資料</li>
+														<li class="fragment"> 多個資料回傳格式: <p><code> varName1:Value1 varName2:Value2 varName3:Value3</code></p></li>
+												</ul>
+
+										</section>
+
+										<section>
+												<h2>資料取得</h2>
+												<h3>Data Input Methods</h3>
+
+												<p>diskfree.sh</p>
+												<pre><code>#!/bin/sh
 df -k $1 | grep -v Filesystem \
 | awk '{printf "megabytes:" $4 " percent:" int($5)}'
-</code></pre>
-                
-            </section>
-            
-        <section>
-            
-                <h2>資料取得</h2>
-                <h3>Data Queries</h3>
-  <ul>
-    <li> 一個 Data Queries 對應多種回傳 (array)</li>
-    <li class="fragment"> 有 index ，即回傳的資料內容是有<strong class="fragment highlight-red">順序</strong>的</li>
-    <li class="fragment"> poller 以 index 為 argument 逐一代入 script 一次取回一個資料</li>
-    <li class="fragment"> 實作較複雜，回傳之資料可延展</li>
-  </ul>
-            </section>
-            
-        <section>
-            <h3>資料儲存</h3>
-            <ul>
-                <li>經由 poller 獲取之資料會存在 poller_output
-                <li class="fragment">有註冊 poller hooks 的 plugin 會先到 poller_output 處理資料
-                <li class="fragment">最後資料會被存為 RRD
-            </ul>
-        
-        </section>
-        
-        <section>
-        
-            <h3>資料呈現</h3>
-            
-            <p>透過 Device 指定的 Graph Template 產生 RRD 的命令，將資料繪製出來</p>
-            
-            <pre><code>/usr/bin/rrdtool graph - --imgformat=PNG --start=-86400 \
+												</code></pre>
+
+										</section>
+
+										<section>
+
+												<h2>資料取得</h2>
+												<h3>Data Queries</h3>
+												<ul>
+														<li> 一個 Data Queries 對應多種回傳 (array)</li>
+														<li class="fragment"> 有 index ，即回傳的資料內容是有<strong class="fragment highlight-red">順序</strong>的</li>
+														<li class="fragment"> poller 以 index 為 argument 逐一代入 script 一次取回一個資料</li>
+														<li class="fragment"> 實作較複雜，回傳之資料可延展</li>
+												</ul>
+										</section>
+
+										<section>
+												<h3>資料儲存</h3>
+												<ul>
+														<li>經由 poller 獲取之資料會存在 poller_output
+																<li class="fragment">有註冊 poller hooks 的 plugin 會先到 poller_output 處理資料
+																		<li class="fragment">最後資料會被存為 RRD
+												</ul>
+
+										</section>
+
+										<section>
+
+												<h3>資料呈現</h3>
+
+												<p>透過 Device 指定的 Graph Template 產生 RRD 的命令，將資料繪製出來</p>
+
+												<pre><code>/usr/bin/rrdtool graph - --imgformat=PNG --start=-86400 \
  --end=-300 --title='Localhost - Load Average' --rigid \
  --base=1000 --height=120 --width=500 --alt-autoscale-max \
  --lower-limit=0 --units-exponent='0' \
  --vertical-label='processes in the run queue' \ 
  --slope-mode --font TITLE:12: --font AXIS:8: --font LEGEND:10: \ 
  --font UNIT:8: 
-  DEF:a="/var/.../localhost_load_1min_5.rrd":load_1min:AVERAGE \ 
-  DEF:b="/var/.../localhost_load_1min_5.rrd":load_5min:AVERAGE \ 
-  DEF:c="/var/.../localhost_load_1min_5.rrd":load_15min:AVERAGE </code></pre>
-            
-        </section>
-        </section>
-        
-        <section>
-        
-        <section>
-        
-            <h2>Plugins</h2>
-        
-        </section>
-        
-        <section>
-        
-            <h3>Plugins 的用途</h3>
-            <p class="fragment">進一步利用 cacti 收集到的資料<br><small><em>eg. WeatherMap</em></small></p>
-            <p class="fragment">擴充 cacti 本來所沒有的功能 <br> <small><em>eg. Threshold, syslog</em></small></p>
-        
-        </section>
-        
-        <section>
-        
-            <h3>WeatherMap</h3>
-            
-            <ul>
-                <li class="fragment"> 以直觀的圖片，視覺化的呈現 Cacti 所收集到的資料
-                <li class="fragment"> 內建簡易編輯器，可輕易依照需求建立不同類型監控圖
-                <li class="fragment"> 透過視覺化的圖形呈現，快速幫助快速找出問題
-            </ul>
-        
-        </section>
-        
-        <section>
-            <h3>WeatherMap</h3>
-            
-            <img src="http://i.imgur.com/HiQ7gqC.png" />
-        
-        </section>
-        
-        <section>
-            <h3>Monitor</h3>
-            
-            <ul>
-                <li class="fragment"> 簡易的狀態儀表板 </li>
-                <li class="fragment"> 快速了解是否有機器停止運作 </li>
-            </ul>
-        </section>
-        
-        <section>
-        
-            <h3>Monitor</h3>
-            
-            <img src='http://i.imgur.com/CUluqUA.png'>
-        
-        </section>
-        
-        
-        <section>
-        
-            <h3>NimdSmokeping</h3>
-            <ul>
-                <li> 整合 Smokeping
-                <li> 監控本地到特定機器的網路狀態
-            </ul>
-        
-        </section>
-        
-        <section>
-            <h3>Nimdsmokeping</h3>
-            <img src="http://i.imgur.com/KSinJnT.png">
-        </section>
-        
-        </section>
-        
-        
-        
-        <section>
-        
-        <section>
-            <h2>總結</h2>
-        </section>
-        
-        <section>
-            <h3>優劣</h3>
-            <ul>
-                <li> 更彈性的架構</li>
-                <li class="fragment"> WeatherMap、Monitor → 更直觀、視覺化</li>
-                <li class="fragment"> 採用 PHP 實作，並有完整的 Plugin Architecure</li>
-                <li class="fragment"> 行之有年，相對穩定</li>
-                <li class="fragment"> 可直接採用的資源豐富</li>
-                <li class="fragment"> 可整合現行採用的多款監控工具，達到監控窗口的統一</li>
-            </ul>
-        </section>
-        
-        <section>
-            <h3>不過…</h3>
-            <ul>
-                <li> 結構彈性但複雜</li>
-                <li class="fragment"> 對於較新的技術著墨比較少</li>
-            </ul>
-        </section>
-        
-        
-        </section>
+	DEF:a="/var/.../localhost_load_1min_5.rrd":load_1min:AVERAGE \ 
+	DEF:b="/var/.../localhost_load_1min_5.rrd":load_5min:AVERAGE \ 
+	DEF:c="/var/.../localhost_load_1min_5.rrd":load_15min:AVERAGE </code></pre>
 
-        <section>
-            <h1>感謝聆聽</h1>
-            <p>
-                Cacti <br>
-                <small>By <a href="mailto:wayne.lai@vpon.com">Wayne</a></small>
-            </p>
-        
-        </section>
-        
-</div>
+										</section>
+								</section>
 
-		</div>
+								<section>
 
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.js"></script>
+										<section>
 
-		<script>
+												<h2>Plugins</h2>
 
-			// Full list of configuration options available at:
-			// https://github.com/hakimel/reveal.js#configuration
-			Reveal.initialize({
-				controls: true,
-				progress: true,
-				history: true,
-				center: true,
+										</section>
 
-				transition: 'slide', // none/fade/slide/convex/concave/zoom
+										<section>
+
+												<h3>Plugins 的用途</h3>
+												<p class="fragment">進一步利用 cacti 收集到的資料<br><small><em>eg. WeatherMap</em></small></p>
+												<p class="fragment">擴充 cacti 本來所沒有的功能 <br> <small><em>eg. Threshold, syslog</em></small></p>
+
+										</section>
+
+										<section>
+
+												<h3>WeatherMap</h3>
+
+												<ul>
+														<li class="fragment"> 以直觀的圖片，視覺化的呈現 Cacti 所收集到的資料
+																<li class="fragment"> 內建簡易編輯器，可輕易依照需求建立不同類型監控圖
+																		<li class="fragment"> 透過視覺化的圖形呈現，快速幫助快速找出問題
+												</ul>
+
+										</section>
+
+										<section>
+												<h3>WeatherMap</h3>
+
+												<img src="http://i.imgur.com/HiQ7gqC.png" />
+
+										</section>
+
+										<section>
+												<h3>Monitor</h3>
+
+												<ul>
+														<li class="fragment"> 簡易的狀態儀表板 </li>
+														<li class="fragment"> 快速了解是否有機器停止運作 </li>
+												</ul>
+										</section>
+
+										<section>
+
+												<h3>Monitor</h3>
+
+												<img src='http://i.imgur.com/CUluqUA.png'>
+
+										</section>
+
+
+										<section>
+
+												<h3>NimdSmokeping</h3>
+												<ul>
+														<li> 整合 Smokeping
+																<li> 監控本地到特定機器的網路狀態
+												</ul>
+
+										</section>
+
+										<section>
+												<h3>Nimdsmokeping</h3>
+												<img src="http://i.imgur.com/KSinJnT.png">
+										</section>
+
+								</section>
+
+
+
+								<section>
+
+										<section>
+												<h2>總結</h2>
+										</section>
+
+										<section>
+												<h3>優劣</h3>
+												<ul>
+														<li> 更彈性的架構</li>
+														<li class="fragment"> WeatherMap、Monitor → 更直觀、視覺化</li>
+														<li class="fragment"> 採用 PHP 實作，並有完整的 Plugin Architecure</li>
+														<li class="fragment"> 行之有年，相對穩定</li>
+														<li class="fragment"> 可直接採用的資源豐富</li>
+														<li class="fragment"> 可整合現行採用的多款監控工具，達到監控窗口的統一</li>
+												</ul>
+										</section>
+
+										<section>
+												<h3>不過…</h3>
+												<ul>
+														<li> 結構彈性但複雜</li>
+														<li class="fragment"> 對於較新的技術著墨比較少</li>
+												</ul>
+										</section>
+
+
+								</section>
+
+								<section>
+										<h1>感謝聆聽</h1>
+										<p>
+										Cacti <br>
+										<small>By <a href="mailto:wayne.lai@vpon.com">Wayne</a></small>
+										</p>
+
+								</section>
+
+						</div>
+
+				</div>
+
+				<script src="lib/js/head.min.js"></script>
+				<script src="js/reveal.js"></script>
+
+				<script>
+
+// Full list of configuration options available at:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+		controls: true,
+		progress: true,
+		history: true,
+		center: true,
+
+		transition: 'slide', // none/fade/slide/convex/concave/zoom
 
 				// Optional reveal.js plugins
-				dependencies: [
-					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
-					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
-					{ src: 'plugin/zoom-js/zoom.js', async: true },
-					{ src: 'plugin/notes/notes.js', async: true }
-				]
-			});
+		dependencies: [
+		{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+		{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+		{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+				{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+				{ src: 'plugin/zoom-js/zoom.js', async: true },
+						{ src: 'plugin/notes/notes.js', async: true }
+		]
+});
 
-		</script>
+				</script>
 
-	</body>
+		</body>
 </html>

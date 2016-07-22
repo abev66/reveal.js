@@ -12,7 +12,7 @@
 @import url(https://fonts.googleapis.com/css?family=Ubuntu:300,700,300italic,700italic);
 @font-face {
     font-family: NotoCJK;
-    src: url(fonts/NotoSansCJK-Regular.ttc);
+    src: url(../../fonts/NotoSansCJK-Regular.ttc);
 }
 /*********************************************
  * GLOBAL STYLES

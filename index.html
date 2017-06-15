@@ -7,7 +7,7 @@
 		<title>reveal.js</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+		<link rel="stylesheet" href="css/theme/serif.css">
 
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -23,9 +23,88 @@
 	</head>
 	<body>
 		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+            <div class="slides">
+				<section>
+					<h1>Zookeeper</h1>
+					<h3>- from Apache Software Foundation</h3>
+					<p>
+						<small><a href="mailto:wayne@rakuya.com.tw">Lai, Wei-Chen</a> / <a href="http://twitter.com/abev66">@abev66</a></small>
+					</p>
+				</section>
+
+				<section>
+					<h3>What is Zookeeper?</h3>
+					<hr>
+					<p>
+						Apache Zookeeper ，專門解決大型分散式運算系統經常遇到的一些常見的問題，例如： Name service, Configuration Centralized, Distributed Synchronization... 等。 常用來處理分散式架構節點間的協調工作。
+					</p>
+				</section>
+				
+                <section>
+                    <section>
+                        <h3>系統結構</h3>
+                        <img src="https://zookeeper.apache.org/doc/trunk/images/zkservice.jpg" style="padding: 10px" />
+                    </section>
+                    
+                    <section>
+                        <h3>Namespace</h3>
+                        <img src="https://zookeeper.apache.org/doc/trunk/images/zknamespace.jpg" />
+                    </section>
+				</section>
+
+				<section>
+                    <section>
+                        <h2>一些常見應用</h2>
+                    </section>
+                    
+                    <section>
+                        <h3>Name Service</h3>
+                        <p>
+                        分散式系統裡常常需要給資源分配一個共通 uniq ID ， Zookeeper 就可以透過 create 自動編號 (sequence) 的 ZNode 來完成這件事。
+                        </p>
+                    </section>
+                    
+                    <section>
+                        <h3>Centralized Configuration Management</h3>
+                        <p>
+                        分散式系統中的節點間常常會需要一個共用的空間存放組態，而且需要能夠即時同步以及監控組態狀態的機制。 而 Zookeeper 除了提供一個共通的 Namespace 以外，亦提供讓節點間可以在組態更新時獲得通知的機制(watch)，從而讓各節點能適時的重新載入相關組態。
+                        </p>
+                    </section>
+                    
+                    <section>
+                        <h3>Master 推選</h3>
+                        <p>
+                        分散式架構中常常會有 master / slave 的設計，而透過 Zookeeper 可以簡單的實現 cluster 中自行選出 master ，並且實現在 master 失效時，自動重新產生新的 master 。
+                        </p>
+                    </section>
+                    <section>
+                        <h3>Master 推選</h3>
+                        <p>
+                        具體實作方式：
+                        </p>
+                        <ol>
+                            <li>所有成員在一個特定的 ZNode 下建立自動編號(sequence)的臨時節點(ephemeral)。</li>
+                            <li>監控(watch)父節點，如此當成員有變動時，就會獲得通知。</li>
+                            <li>編號最小的那一個成員，即為 master 。</li>
+                            <li>因為 ephemeral 屬性的關係，成員斷線時自己所建立的 ephemeral znodes 將會被 zookeeper 清除，從而讓其他成員獲悉 cluster 列表的異動，並決定是否需要重新選出 master 。</li>
+                        </ol>
+                    </section>
+                </section>
+                
+                <section>
+                    <h2>在 Kafka 中的角色</h2>
+                    <ol>
+                        <li>管理 brokers / consumers / producers / topics 等角色的註冊狀態。</li>
+                        <li>記錄 Topics 分成多個 partitions 到不同 broker 上的分區狀態。</li>
+                        <li>透過 watcher 機制來讓 producer 來感知 Brokers / Topics 的分區狀況。</li>
+                        <li>...</li>
+                    </ol>
+                </section>
+                
+                <section>
+                    <p>Demo...</p>
+                    <h2>zkDemo.py</h2>
+                </section>
 			</div>
 		</div>
 

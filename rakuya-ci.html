@@ -1,0 +1,341 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>rakuya-ansible</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>Rakuya Ansible</h1>
+					<h3>部屬流程說明</h3>
+					<p>
+						<small>Created by <a href="mailto:wayne@rakuya.com.tw">Wayne</a></small>
+					</p>
+				</section>
+
+				<section>
+					<h2>Outline</h2>
+					<ol>
+						<li>WEB 服務佈署流程</li>
+						<li>新專案建立流程</li>
+					</ol>
+				</section>
+
+				<section>
+					<section>
+						<h1>WEB 服務佈署流程</h1>
+					</section>
+					<section>
+						<h2>基礎架構</h2>
+						<p>相依專案 → <span class="fragment">conf.d → </span><span class="fragment">建立專案目錄 → </span><span class="fragment">拷貝靜態檔案</span></p>
+						<p><span class="fragment"> → git 更新 → </span><span class="fragment">掛載相關目錄 → </span><span class="fragment">runtime 權限設定</span></p>
+					</section>
+					<section>
+						<h2>相依專案</h2>
+						<p>member/meta/main.yml</p>
+						<pre><code class="hljs" data-trim contenteditable>
+---
+dependencies:
+  - { role: ssh-key, tags: code_only }  # 存取 repo 專用 key
+  - { role: php56-centos }  # PHP 5.6
+  - { role: rakuya-ssl }  # 萬用憑證
+  - { role: php-composer-installer }  # Composer
+  - { role: rakuya-apache }  # Apache 相關設定
+  - { role: common-css }
+  - { role: common-js }
+  - { role: common-img }
+  - { role: common-NA }
+  - { role: rakuya-yii2-common }  # yii2 project 通用
+						</code></pre>
+					</section>
+					<section>
+						<h2>common files</h2>
+						<small>
+						<ol>
+							<li>common-css</li>
+							<li>common-framework</li>
+							<li>common-crossdomain</li>
+							<li>common-composer</li>
+							<li>common-img &nbsp; # NA: /vol/img</li>
+							<li>common-js &nbsp; # git js</li>
+							<li>common-min &nbsp; # svn js + min</li>
+							<li>common-NA</li>
+							<li>common-rakuya</li>
+							<li>rakuya-favicon</li>
+							<li>rakuya-yii2-common</li>
+						</ol>
+					</small>
+					</section>
+					<section>
+						<h2>common-css</h2>
+						<ol>
+							<li>RSYNC: static、css、images<pre><code class="hljs" data-trim contenteditable>
+# css
+rsync_common_css: "/home/artsmb/www_devp"
+							</code></pre></li>
+							<li>SVN: swf</li>
+						</ol>
+					</section>
+					<section>
+						<h2>common-NA</h2>
+						<ol>
+							<li>16: /vol/NA</li>
+							<li>15: /vol/r1</li>
+							<li>16: /vol/r2</li>
+							<li>16: /vol/r3</li>
+						</ol>
+					</section>
+					<section>
+						<h2>common-NA: override</h2>
+						<p>www1.yml</p>
+						<pre><code class="hljs" data-trim contenteditable>
+vars:
+...(略)...
+- mount_opts:
+  - { src: "172.20.50.16:/vol/NA", mp: "{{ webuser_homepath }}/NA" }
+  - { src: "172.20.50.15:/vol/r1", mp: "{{ webuser_homepath }}/r1" }
+  - { src: "172.20.50.16:/vol/r2", mp: "{{ webuser_homepath }}/r2" }
+  - { src: "172.20.50.16:/vol/r3", mp: "{{ webuser_homepath }}/r3" }
+  - { src: "172.20.50.16:/vol/r4", mp: "{{ webuser_homepath }}/r4" }
+						</code></pre>
+					</section>
+					<section>
+						<h2>conf.d</h2>
+						<p>member/templates/conf.d/member.conf</p>
+						<pre><code class="hljs" data-trim contenteditable>
+	...(略)...
+	&lt;VirtualHost *:443&gt;
+	{% include "common/apache/virtualhost-head.j2" %}
+	{% include "common/apache/ssl-cert.j2" %}
+	{% include "common/apache/apache-global-config.j2" %}
+	{% include "common/apache/yii2-document-root.j2" %}
+
+	# common files
+	{% for component in ("favicon","static","css","images","js") %}
+	{% include "common/apache/alias-common-"+component+".j2" %}
+	{% endfor %}
+	&lt;/VirtualHost&gt;
+						</code></pre>
+					</section>
+					<section>
+						<h2>document root for yii1</h2>
+						<pre><code class="hljs" data-trim contenteditable>
+&lt;Directory "{{ document_root }}"&gt;
+    Options -Indexes +FollowSymLinks
+    AllowOverride All
+    Require all granted
+&lt;/Directory&gt;
+						</code></pre>
+					</section>
+					<section>
+						<h2>common components</h2>
+						<ol>
+							<li>crossdomain</li>
+							<li>css</li>
+							<li>favicon</li>
+							<li>images</li>
+							<li>img</li>
+							<li>js</li>
+							<li>min</li>
+							<li>static</li>
+							<li>swf</li>
+						</ol>
+					</section>
+					<section>
+						<h2>建立專案目錄</h2>
+						<pre><code class="hljs" data-trim contenteditable>
+- name: "Create directories"
+  file:
+    path: "{{ webuser_homepath }}/rakuya/member/basic"
+    state: "directory"
+    recurse: yes
+  become: true
+  become_user: "{{ user_webuser }}"
+						</code></pre>
+					</section>
+					<section>
+						<h2>git 更新</h2>
+						<pre><code class="hljs" data-trim contenteditable>
+# - GIT REPOSITORY UPDATE --------------------
+
+- include: common/git-update.yml
+  vars:
+    title: "{{ item.t }}"
+    repo: "{{ item.r }}"
+    dest: "{{ item.d }}"
+    version: "{{ item.v }}"
+  with_items:
+  - { t: "basic", r: "ssh://{{ git_server }}/vip/vip_store.git", d: "{{ webuser_homepath }}/rakuya/vip/basic", v: "{{ ver_vipstore_basic }}" }
+  tags:
+  - code_only
+						</code></pre>
+					</section>
+					<section>
+						<p>git-update.yml 引數：</p>
+						<ol>
+							<li>title: 標題，用來顯示</li>
+							<li>repo: 套件來源<pre><code class="hljs" data-trim contenteditable>ssh://{{ git_server }}/vip/vip_store.git</code></pre></li>
+							<li>dest: 目的地<pre><code class="hljs" data-trim contenteditable>{{ webuser_homepath }}/rakuya/vip/basic</code></pre></li>
+							<li>version: 版本，可以是 branch 或 git 版號，通常會帶變數統一整理至 group_vars/prodA prodB staging 中<pre><code class="hljs" data-trim contenteditable>{{ ver_vipstore_basic }}</code></pre></li>
+						</ol>
+					</section>
+					<section>
+						<h2>Mounting</h2>
+						<pre><code class="hljs" data-trim contenteditable>
+# - MOUNT COMMON FILES -----------------------
+- include: common/mount-common.yml
+  vars:
+    common_list:
+    - { src: "{{ path_common_rcommon }}", dest: "{{ webuser_homepath }}/rakuya/vip/rcommon" }
+    - { src: "{{ path_common_js }}",      dest: "{{ webuser_homepath }}/rakuya/vip/js" }
+						</code></pre>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h1>新專案建立流程</h1>
+					</section>
+
+					<section>
+						<h2>主 PLAYBOOK</h2>
+						<pre><code class="hljs" data-trim contenteditable>
+- name: Install www-ci
+  hosts: www-ci
+  become_method: sudo
+  vars:
+  - server_name: "www.rakuya.com.tw"
+  - server_alias: "api1.rakuya.com.tw"
+  - document_root: "{{ webuser_homepath }}/www"
+
+  - error_log: "{{ path_httpd_logpath }}/www-ci-error.log"
+  - access_log: "{{ path_httpd_logpath }}/www-ci-access.log"
+
+  roles:
+  - www-ci
+						</code></pre>
+					</section>
+					<section>
+						<h2>設定 Inventory group</h2>
+						<small>
+						<pre><code class="hljs" data-trim contenteditable>
+[ads:children]
+adsA
+adsB
+
+[adsA]
+172.20.50.[214:215]
+
+[adsB]
+172.20.50.141
+
+[webservices:children]
+ads
+
+[production:children]
+ads
+
+[prodA:children]
+adsA
+
+[td-agent:children]
+ads
+
+[prodB]
+172.20.50.141
+						</code></pre>
+						</small>
+					</section>
+					<section>
+						<h2>確認相依專案</h2>
+						<ol>
+							<li>meta/main.yml</li>
+							<li>conf.d</li>
+						</ol>
+					</section>
+
+					<section>
+						<h2>更新相依的專案</h2>
+						<p>common-rcommon.yml</p>
+						<pre><code class="hljs" data-trim contenteditable>
+- name: deploy common-rcommon
+  hosts: partner:webmsg:rmsg:mobsrv:appserver:statistics:coopweb:my:items:vipstore:payment:secure:member:www1
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>確認 git 來源與佈署位置、版本</h2>
+						<small><pre><code class="hljs" data-trim contenteditable>
+# - RAKUYA ENV AND STATIC FILES --------------
+- name: "Create root"
+  file:
+    path: "{{ webuser_homepath }}/rakuya/vip/basic"
+    state: "directory"
+    recurse: yes
+  become: true
+  become_user: "{{ user_webuser }}"
+
+# - GIT REPOSITORY UPDATE --------------------
+
+- include: common/git-update.yml
+	vars:
+		title: "{{ item.t }}"
+		repo: "{{ item.r }}"
+		dest: "{{ item.d }}"
+		version: "{{ item.v }}"
+	with_items:
+	- { t: "basic", r: "ssh://{{ git_server }}/vip/vip_store.git", d: "{{ webuser_homepath }}/rakuya/vip/basic", v: "{{ ver_vipstore_basic }}" }
+	tags:
+	- code_only
+</code></pre></small>
+					</section>
+
+					<section>
+						<h2>加入版本變數</h2>
+						<p>group_vars/prodA</p>
+						<pre><code class="hljs" data-trim contenteditable>
+# vipstore
+ver_vipstore_basic:        "master"
+						</code></pre>
+					</section>
+				</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>
